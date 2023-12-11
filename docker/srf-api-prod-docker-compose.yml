@@ -1,0 +1,63 @@
+version: '3.3'
+
+services:
+  ui:
+    image: zoltansco/srf:temp-ui
+    container_name: srf-app
+    restart: always
+    ports:
+      - 8300:8080
+    expose:
+      - 8300
+    depends_on:
+      - srf-api
+    networks:
+      - srf-net
+
+  srf-api:
+    #build: .
+    image: zoltansco/srf:srf-api-2023.1
+    container_name: srf-api
+    restart: always
+    ports:
+      - "8400:8080"
+    expose:
+      - '8400'
+    depends_on:
+      - srf-api-mysql
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://srf-api-mysql:3306/srf
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
+      - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.MySQLDialect
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_SHOW_SQL=true
+    networks:
+      - srf-net
+
+  srf-api-mysql:
+    platform: linux/x86_64
+    image: mysql:5.7
+    restart: always
+    container_name: srf-api-mysql
+    environment:
+      MYSQL_DATABASE: 'srf'
+      MYSQL_USER: 'srf'
+      MYSQL_PASSWORD: 'srf'
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      - '3300:3306'
+    expose:
+      - '3300'
+    volumes:
+      - srf-api-mysql-db:/var/lib/mysql
+    networks:
+      - srf-net
+
+volumes:
+  srf-api-mysql-db:
+
+networks:
+  srf-net:
+    driver: bridge

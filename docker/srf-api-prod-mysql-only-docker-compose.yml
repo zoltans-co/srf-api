@@ -1,0 +1,21 @@
+version: '3.3'
+
+services:
+  db:
+    platform: linux/x86_64
+    image: mysql:5.7
+    restart: always
+    container_name: srf-mysql
+    environment:
+      MYSQL_DATABASE: 'srf'
+      MYSQL_USER: 'srf'
+      MYSQL_PASSWORD: 'srf'
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      - '3300:3306'
+    expose:
+      - '3300'
+    volumes:
+      - srf-mysql-db:/var/lib/mysql
+volumes:
+  srf-mysql-db:
