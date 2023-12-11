@@ -1,5 +1,6 @@
 package co.zoltans.srf.srfapi.topic;
 
+import co.zoltans.srf.srfapi.publication.Publication;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -33,5 +35,8 @@ public class Topic {
             nullable = false,
             columnDefinition = "TEXT"
     )
-    private String topicName;
+    private String name;
+
+    @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Publication> publications;
 }

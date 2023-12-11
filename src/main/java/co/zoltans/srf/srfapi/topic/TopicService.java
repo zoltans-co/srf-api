@@ -17,7 +17,7 @@ public class TopicService {
     private final TopicRepository topicRepository;
 
     public void createTopic(final CreateTopicDTO createTopic) {
-        final Topic topic = Topic.builder().topicName(createTopic.name()).build();
+        final Topic topic = Topic.builder().name(createTopic.name()).build();
         topicRepository.saveAndFlush(topic);
     }
 
@@ -48,8 +48,12 @@ public class TopicService {
         }
 
         Topic existingTopic = optionalTopic.get();
-        existingTopic.setTopicName(newTopicData.getTopicName());
+        existingTopic.setName(newTopicData.getName());
 
         return topicRepository.save(existingTopic);
+    }
+
+    public Optional<Topic> getTopicById(UUID uuid) {
+        return topicRepository.findById(uuid);
     }
 }
