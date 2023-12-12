@@ -2,7 +2,7 @@ version: '3.3'
 
 services:
   ui:
-    image: zoltansco/srf:temp-ui
+    image: zoltansco/statistico:temp-ui
     container_name: srf-app
     restart: always
     ports:

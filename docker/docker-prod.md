@@ -3,12 +3,7 @@
 ### HIPER FONTOS -> Build and push the api image to docker hub
 #### Build and push in one command
 ````bash
-docker buildx build --push --platform linux/amd64 -t zoltansco/srf:srf-api-2023.1 -f Dockerfile .
-````
-
-### Bash test
-````bash
-tldr man 
+docker buildx build --push --platform linux/amd64 -t zoltansco/srf:srf-api-2023.2 -f Dockerfile .
 ````
 
 ### MySQL only
